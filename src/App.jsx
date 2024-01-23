@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -8,6 +8,25 @@ function App() {
 	const [numberAllowed, setNumberAllowed] = useState(false);
 	const [charactersAllowed, setCharactersAllowed] = useState(false);
 	const [password, setPassword] = useState("");
+
+	const generatePassword = useCallback(() => {
+		let pass = "";
+		let string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+		if (numberAllowed) string += "123456789";
+		if (charactersAllowed) string += "!@#$%&*()_-+=<>?/{}[]";
+
+		for (let i = 1; i < lenght; i++) {
+			const index = Math.floor(Math.random() * string.length + 1);
+			pass += string.charAt(index);
+		}
+
+		setPassword(pass);
+	}, [lenght, numberAllowed, charactersAllowed]);
+
+	useEffect(() => {
+		generatePassword();
+	}, [lenght, numberAllowed, charactersAllowed]);
 
 	return (
 		<div className="w-full max=w=md mx-auto shadow-md rounded-lg px-4 py-3 bg-gray-800 text-orange-500">
